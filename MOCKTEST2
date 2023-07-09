@@ -1,0 +1,61 @@
+Mock Test 2 - Big Data - PPT
+
+1)  Write an SQL query to find the second-highest salary from an "Employees" table.
+ANS
+  SELECT MAX(Salary) FROM Employee
+  WHERE Salary NOT IN (SELECT MAX(Salary) FROM Employee )
+
+
+2)  Write a MapReduce program to calculate the word count of a given input text file.
+ANS 
+  Pre-requisite - Java Installation , Hadoop Installation
+a) Create a text file in your local machine and write some text into it.
+$ nano data.txt
+b)Check the text written in the data.txt file.
+$ cat data.txt
+c)Create a directory in HDFS, where to kept text file.
+$ hdfs dfs -mkdir /test
+Upload the data.txt file on HDFS in the specific directory.
+$ hdfs dfs -put /home/codegyani/data.txt /test
+d)Write the MapReduce program using eclipse
+e)Create the jar file of this program and name it countworddemo.jar.
+f)Run the jar file
+hadoop jar /home/codegyani/wordcountdemo.jar com.javatpoint.WC_Runner /test/data.txt /r_output
+g)The output is stored in /r_output/part-00000
+h)Now execute the command to see the output.
+hdfs dfs -cat /r_output/part-00000
+
+
+
+3)Write a Spark program to count the number of occurrences of each word in a given text file.
+ANS  
+a)  Create a text file in your local machine and write some text into it.
+$ nano sparkdata.txt  
+b)Check the text written in the sparkdata.txt file.
+$ cat sparkdata.txt  
+c)Create a directory in HDFS, where to kept text file.
+$ hdfs dfs -mkdir /spark  
+d)Upload the sparkdata.txt file on HDFS in the specific directory.
+$ hdfs dfs -put /home/codegyani/sparkdata.txt /spark
+e)Now, follow the below command to open the spark in Scala mode.
+$ spark-shell 
+f)Let's create an RDD by using the following command.
+scala> val data=sc.textFile("sparkdata.txt")  
+g)Now, we can read the generated result by using the following command.
+scala> data.collect;  
+h)Here, we split the existing data in the form of individual words by using the following command.
+scala> val splitdata = data.flatMap(line => line.split(" ")); 
+i) Now, we can read the generated result by using the following command.
+scala> splitdata.collect;  
+j)Now, perform the map operation.
+scala> val mapdata = splitdata.map(word => (word,1));  
+k) Now, we can read the generated result by using the following command.
+scala> mapdata.collect; 
+L)Now, perform the reduce operation
+scala> val reducedata = mapdata.reduceByKey(_+_); 
+M)Now, we can read the generated result by using the following command.
+scala> reducedata.collect;
+
+
+
+
